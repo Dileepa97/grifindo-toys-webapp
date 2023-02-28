@@ -1,0 +1,38 @@
+# .NET Core
+bin/
+obj/
+Debug/
+Release/
+*.user
+
+# Visual Studio
+.vs/
+*.suo
+*.csproj.user
+
+# NuGet
+packages/
+
+# MSTest
+TestResults/
+
+# Resharper
+_ReSharper*/
+*.ReSharper*
+
+# Others
+*.log
+*.bak
+*.cache
+*.bak
+*.db
+*.sqlite
+*.sln.docstates
+*.psess
+*.vsp
+*.vspx
+*.vssscc
+*.vstemplate
+*.xml.webinfo
+*.PublishSettings
+*.csproj.vspscc

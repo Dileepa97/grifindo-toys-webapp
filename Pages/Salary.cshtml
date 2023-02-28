@@ -1,0 +1,80 @@
+﻿@page
+@model GrifindoToys.Pages.SalaryModel
+@{
+}
+
+<h1>Salary Reports</h1>
+
+<form method="get">
+    <div class="form-group">
+        <label for="employeeId">Employee:</label>
+        <select class="form-control" id="employeeId" name="employeeId">
+            <option value="">All Employees</option>
+            @foreach (var employee in Model.Employees)
+            {
+        <option value="@employee.Id" selected="@(Model.EmployeeId == employee.Id)">@employee.FirstName @employee.LastName</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="cycleStartDate">Cycle Start Date:</label>
+        <select class="form-control" id="cycleStartDate" name="cycleStartDate">
+            <option value="">All Cycle Start Dates</option>
+            @foreach (var cycleStartDate in Model.CycleStartDates)
+            {
+        <option value="@cycleStartDate.ToString("yyyy-MM-dd")" selected="@(Model.CycleStartDate == cycleStartDate )">@cycleStartDate.ToString("yyyy-MM-dd")</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+<br />
+<br />
+
+@if (Model.Salaries != null && Model.Salaries.Any())
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Employee ID</th>
+                    <th>Cycle Start Date</th>
+                    <th>Cycle End Date</th>
+                    <th>Absent Days</th>
+                    <th>Overtime Hours</th>
+                    <th>No Pay Value</th>
+                    <th>Base Pay Value</th>
+                    <th>Gross Pay Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var salary in Model.Salaries)
+                {
+                    <tr>
+                        <td>@salary.Id</td>
+                        <td>@salary.EmpId</td>
+                        <td>@salary.CycleStartDate.ToString("yyyy-MM-dd")</td>
+                        <td>@salary.CycleEndDate.ToString("yyyy-MM-dd")</td>
+                        <td>@salary.AbsentDays</td>
+                        <td>@salary.OTHours</td>
+                        <td>@salary.NoPayValue</td>
+                        <td>@salary.BasePayValue</td>
+                        <td>@salary.GrossPayValue</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <form method="post">
+        <input hidden type="number" class="form-control" id="employeeId" required name="employeeId" value="@(Model.EmployeeId ?? -1)">
+        <input hidden type="date" class="form-control" id="startDate" required name="startDate" value="@Model.CycleStartDate.ToString("yyyy-MM-dd")">
+        <button type="submit" class="btn btn-primary" asp-page-handler="ExportReport">Export as PDF</button>
+    </form>
+
+}
+else
+{
+    <p>No salaries found.</p>
+}

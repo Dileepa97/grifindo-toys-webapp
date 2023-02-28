@@ -1,0 +1,14 @@
+﻿@page "{id:int}"
+@model GrifindoToys.Pages.DeleteEmployeeModel
+@{
+    ViewData["Title"] = "Delete Employee";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Are you sure you want to delete employee @Model.Employee.FirstName @Model.Employee.LastName?</h3>
+
+<form method="post">
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-page="/Index" class="btn btn-primary">Cancel</a>
+</form>

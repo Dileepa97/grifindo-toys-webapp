@@ -1,0 +1,99 @@
+﻿@page
+@model GrifindoToys.Pages.SalaryCalculationModel
+@{
+    ViewData["Title"] = "Salary Calculation";
+}
+
+<h1>Salary Calculation</h1>
+
+@if (!Model.ShowSalarySection)
+{
+    <form method="post">
+        <div class="form-group">
+            <label for="startDate">Salary Cycle Start Date:</label>
+            <input type="date" class="form-control" id="startDate" required name="startDate" value="@Model.StartDate.ToString("yyyy-MM-dd")">
+        </div>
+        <div class="form-group">
+            <label for="endDate">Salary Cycle End Date:</label>
+            <input type="date" class="form-control" id="endDate" required name="endDate" value="@Model.EndDate.ToString("yyyy-MM-dd")">
+        </div>
+        <div class="form-group">
+            <label for="employeeId">Employee:</label>
+            <select class="form-control" id="employeeId" name="employeeId" required>
+                <option value="">--Select Employee--</option>
+                @foreach (var employee in Model.Employees)
+                {
+                    <option value="@employee.Id">@employee.FirstName  @employee.LastName </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="absentDays">Absent Days:</label>
+            <input type="number" class="form-control" id="absentDays" required min="0" name="absentDays" value="@Model.AbsentDays">
+        </div>
+        <div class="form-group">
+            <label for="overtimeHours">Overtime Hours:</label>
+            <input type="number" class="form-control" id="overtimeHours" required min="0" name="overtimeHours" value="@Model.OvertimeHours">
+        </div>
+        <button type="submit" class="btn btn-primary">Calculate Salary</button>
+    </form>
+
+    <br />
+    <br />
+    <div id="notification"></div>
+}
+
+@if (Model.ShowSalarySection)
+{
+    <div class="card mt-4">
+        <div class="card-header">Calculated Salary</div>
+        <div class="card-body">
+            <h5 class="card-title">Employee: @Model.SelectedEmployee.FirstName @Model.SelectedEmployee.LastName</h5>
+            <p class="card-text">Salary Cycle Start Date: @Model.SalaryCycleStart</p>
+            <p class="card-text">Salary Cycle End Date: @Model.SalaryCycleEnd</p>
+            <p class="card-text">No Pay Value: @Model.NoPayValue</p>
+            <p class="card-text">Base Pay Value: @Model.BasePayValue</p>
+            <p class="card-text">Gross Pay Value: @Model.GrossPayValue</p>
+            <form method="post">
+                <input hidden type="number" class="form-control" id="employeeId" required name="employeeId" value="@Model.SelectedEmployee.Id">
+                <input hidden type="date" class="form-control" id="startDate" required name="startDate" value="@Model.SalaryCycleStart.ToString("yyyy-MM-dd")">
+                <input hidden type="date" class="form-control" id="endDate" required name="endDate" value="@Model.SalaryCycleEnd.ToString("yyyy-MM-dd")">
+                <input hidden type="number" class="form-control" id="absentDays" required min="0" name="absentDays" value="@Model.AbsentDays">
+                <input hidden type="number" class="form-control" id="overtimeHours" required min="0" name="overtimeHours" value="@Model.OvertimeHours">
+                <input hidden type="number" class="form-control" steps="0.01" id="noPayValue" required  name="noPayValue" value="@Model.NoPayValue">
+                <input hidden type="number" class="form-control" steps="0.01" id="basePayValue" required  name="basePayValue" value="@Model.BasePayValue">
+                <input hidden type="number" class="form-control" steps="0.01" id="grossPayValue" required  name="grossPayValue" value="@Model.GrossPayValue">
+                <button type="submit" class="btn btn-info" asp-page-handler="SaveSalary">Save</button>
+                <button type="submit" class="btn btn-danger" asp-page-handler="CanacelSave">Cancel</button>
+            </form>
+        </div>
+    </div>
+}
+
+
+
+
+<script>
+    $(document).ready(function () {
+        var errorMessage = '@TempData["ErrorMessage"]';
+        if (errorMessage) {
+            var notification = document.getElementById("notification");
+            notification.innerHTML = '<div class="alert alert-danger" role="alert">' + errorMessage + '</div>';
+
+            setTimeout(function () {
+                notification.innerHTML = '';
+            }, 4000);
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,69 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Grifindo Toys</h1>
+    <br><br>
+    <h2>Employees</h2>
+    <br>
+    <p> 
+        <a asp-page="AddEmployee" class="btn btn-primary">Create New Employee</a>
+    </p>
+    <form method="get">
+        <div class="form-group">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search employees..." name="searchString" value="@Model.SearchString" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Monthly Salary</th>
+                <th>OT/Hour</th>
+                <th>Allowances</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model.Employees)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => employee.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => employee.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => employee.Age)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => employee.MonthlySalary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => employee.OTPerHour)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => employee.Allowances)
+                    </td>
+                    <td>
+                        <a asp-page="EditEmployee" asp-route-id="@employee.Id" class="btn btn-success">Edit</a> |
+                        <a asp-page="EmployeeDetail" asp-route-id="@employee.Id" class="btn btn-primary">Details</a> |
+                        <a asp-page="DeleteEmployee" asp-route-id="@employee.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+

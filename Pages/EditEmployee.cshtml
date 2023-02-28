@@ -1,0 +1,34 @@
+﻿@page
+@model GrifindoToys.Pages.EditEmployeeModel
+@{
+}
+
+<h2>Update Employee Details</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" class="form-control" id="firstName" name="firstName" value="@Model.Employee.FirstName" required>
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" value="@Model.Employee.LastName" required>
+    </div>
+    <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" class="form-control" id="age" name="age" min="18" max="70" value="@Model.Employee.Age" required>
+    </div>
+    <div class="form-group">
+        <label for="monthlySalary">Monthly Salary:</label>
+        <input type="number" class="form-control" id="monthlySalary" name="monthlySalary" min="0" value="@Model.Employee.MonthlySalary" required>
+    </div>
+    <div class="form-group">
+        <label for="otPerHour">OT Per Hour:</label>
+        <input type="number" class="form-control" id="otPerHour" name="otPerHour" min="0" value="@Model.Employee.OTPerHour" required>
+    </div>
+    <div class="form-group">
+        <label for="allowances">Allowances:</label>
+        <input type="number" class="form-control" id="allowances" name="allowances" min="0" value="@Model.Employee.Allowances" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

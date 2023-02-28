@@ -1,0 +1,19 @@
+﻿@page
+@model GrifindoToys.Pages.EmployeeDetailModel
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<h1>@Model.Employee.FirstName @Model.Employee.LastName</h1>
+
+<p><strong>ID:</strong> @Model.Employee.Id</p>
+<p><strong>First Name:</strong> @Model.Employee.FirstName</p>
+<p><strong>Last Name:</strong> @Model.Employee.LastName</p>
+<p><strong>Age:</strong> @Model.Employee.Age</p>
+<p><strong>Monthly Salary:</strong> @Model.Employee.MonthlySalary</p>
+<p><strong>OT per Hour:</strong> @Model.Employee.OTPerHour</p>
+<p><strong>Allowances:</strong> @Model.Employee.Allowances</p>
+
+
+<a asp-page="EditEmployee" asp-route-id="@Model.Employee.Id" class="btn btn-primary">Edit</a> |
+<a asp-page="DeleteEmployee" asp-route-id="@Model.Employee.Id" class="btn btn-danger">Delete</a>

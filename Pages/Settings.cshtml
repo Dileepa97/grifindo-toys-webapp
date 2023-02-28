@@ -1,0 +1,75 @@
+﻿@page
+@model GrifindoToys.Pages.SettingsModel
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<h1>Settings</h1>
+
+<form method="post">
+    <table>
+        @foreach (var setting in Model.Settings)
+        {
+            <tr>
+                <td>@setting.option:</td>
+                <td>
+                    @if (setting.option == "Salary Cycle Date Range" || setting.option == "Allocated leaves")
+                    {
+                        <input type="number" min="0" max="100" required name="settings[@setting.option]" value="@setting.value" disabled />
+                    }
+                    else if (setting.option == "Salary Cycle Start Date" || setting.option == "Salary Cycle End Date")
+                    {
+                        <input type="date" name="settings[@setting.option]" value="@((DateTime.TryParse(setting.value, out var date)) ? date.ToString("yyyy-MM-dd") : setting.value)" disabled />
+
+                    }
+                    else if (setting.option == "Government Tax Rate")
+                    {
+                        <input type="number" step="0.01" min="0" max="1" required name="settings[@setting.option]" value="@setting.value" disabled />
+                    }
+                    else
+                    {
+                        <input type="text" required name="settings[@setting.option]" value="@setting.value" disabled />
+                    }
+
+                    <button type="button" class="edit-btn btn btn-success" data-option="@setting.option">Edit</button>
+                    <button type="button" class="cancel-btn btn btn-primary" data-option="@setting.option" style="display:none;">Cancel</button>
+                    <button type="submit" class="update-btn btn btn-danger" data-option="@setting.option" style="display:none;">Update</button>
+                </td>
+            </tr>
+        }
+    </table>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".edit-btn").click(function () {
+                var option = $(this).data("option");
+                $("input[name='settings[" + option + "]']").prop("disabled", false);
+                $(this).hide();
+                $(".update-btn[data-option='" + option + "']").show();
+                $(".cancel-btn[data-option='" + option + "']").show();
+            });
+            $(".cancel-btn").click(function () {
+                var option = $(this).data("option");
+                $("input[name='settings[" + option + "]']").val($(this).closest("tr").find("input[name='settings[" + option + "]']").prop("defaultValue")).prop("disabled", true);
+                $(this).hide();
+                $(".update-btn[data-option='" + option + "']").hide();
+                $(".edit-btn[data-option='" + option + "']").show();
+            });
+            $(".update-btn").click(function () {
+                var option = $(this).data("option");
+                $(this).closest("form").append("<input type='hidden' name='option' value='" + option + "' />");
+                $(this).closest("form").submit();
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $('.datepicker').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+}
